@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>懒加载</title>
+  <style>
+    div {
+      width: 915px;
+      margin: 0 auto;
+    }
+    div img {
+      margin-top: 10px;
+      border: 2px solid black;
+    }
+  </style>
+</head>
+<body>
+<div>
+  <img src="img/loading.jpg" data-src="img/1.jpg" alt="">
+  <img src="img/loading.jpg" data-src="img/2.jpg" alt="">
+  <img src="img/loading.jpg" data-src="img/3.jpg" alt="">
+  <img src="img/loading.jpg" data-src="img/2.jpg" alt="">
+  <img src="img/loading.jpg" data-src="img/1.jpg" alt="">
+  <img src="img/loading.jpg" data-src="img/1.jpg" alt="">
+  <img src="img/loading.jpg" data-src="img/3.jpg" alt="">
+  <img src="img/loading.jpg" data-src="img/1.jpg" alt="">
+  <img src="img/loading.jpg" data-src="img/2.jpg" alt="">
+  <img src="img/loading.jpg" data-src="img/2.jpg" alt="">
+  <img src="img/loading.jpg" data-src="img/1.jpg" alt="">
+  <img src="img/loading.jpg" data-src="img/3.jpg" alt="">
+  <img src="img/loading.jpg" data-src="img/1.jpg" alt="">
+  <img src="img/loading.jpg" data-src="img/2.jpg" alt="">
+  <img src="img/loading.jpg" data-src="img/3.jpg" alt="">
+  <img src="img/loading.jpg" data-src="img/2.jpg" alt="">
+  <img src="img/loading.jpg" data-src="img/1.jpg" alt="">
+  <img src="img/loading.jpg" data-src="img/1.jpg" alt="">
+  <img src="img/loading.jpg" data-src="img/3.jpg" alt="">
+  <img src="img/loading.jpg" data-src="img/1.jpg" alt="">
+  <img src="img/loading.jpg" data-src="img/2.jpg" alt="">
+  <img src="img/loading.jpg" data-src="img/2.jpg" alt="">
+  <img src="img/loading.jpg" data-src="img/1.jpg" alt="">
+  <img src="img/loading.jpg" data-src="img/3.jpg" alt="">
+
+</div>
+
+
+<script src="jquery-3.2.1.min.js"></script>
+<script>
+  var $img = $('img')
+  var clcok
+
+  function isVisible($node) {
+    var windowHeight = $(window).height(),
+        scrollTop = $(window).scrollTop(),
+        offsetTop = $node.offset().top + $node.height()/2
+
+    if(windowHeight + scrollTop > offsetTop && scrollTop < offsetTop){
+      return true;
+    }
+    return false;
+  }
+
+  function lazyLoad() {
+    $img.each(function () {
+      if( isVisible($(this)) && !isLoaded($(this)) ){
+        loadImg($(this))
+      }
+    })
+  }
+
+  lazyLoad()
+
+  $(window).on('scroll',function () {
+    if(clcok){
+      clearTimeout(clcok)
+    }
+    clcok = setTimeout(function () {
+      lazyLoad()
+    },300)
+  })
+
+  function loadImg(imgs) {
+    imgs.attr('src',imgs.attr('data-src'))
+  }
+
+  function isLoaded(imgs) {
+    return imgs.attr('src') === imgs.attr('data-src')
+  }
+</script>
+</body>
+</html>
